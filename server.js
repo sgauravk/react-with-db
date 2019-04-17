@@ -59,6 +59,6 @@ app.post("/addUser", addNewUser);
 app.post("/addMoney", updateWallet);
 
 app.get('*', (req, res)=> {
-  res.sendFile(express.static('react-app/build/index.html'));
+  res.sendFile(__dirname + 'react-app/build/index.html');
 })
 app.listen(port, () => console.log("listening on " + port));
