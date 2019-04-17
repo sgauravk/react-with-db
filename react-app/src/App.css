@@ -1,0 +1,15 @@
+.offers{
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.vivo{
+  width: 30%;
+  height: 600px;;
+}
+
+.cashback {
+  width: 69%;
+}
