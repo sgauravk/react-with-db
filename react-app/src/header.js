@@ -13,15 +13,21 @@ class Header extends Component {
   }
 
   hideLogin() {
-    const name = document.getElementById('login-box').value;
-    if(!name) return;
-    fetch("/addUser", {method:"POST", body: name}).then(res => res.text()).then(money=>{
-      document.getElementById("current-balance").innerText = money;
-    });
-    document.getElementById("username").innerText = name;
-    document.getElementById("username").style.fontSize = "25px";
-    document.getElementById("username").style.fontWeight = "800";
-    document.getElementById("overlay").style.visibility = "hidden";
+    const name = document.getElementById("login-box").value;
+    if (!name) return;
+    fetch("/addUser", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name })
+    })
+      .then(res => res.text())
+      .then(money => {
+        document.getElementById("current-balance").innerText = money;
+        document.getElementById("username").innerText = name;
+        document.getElementById("username").style.fontSize = "25px";
+        document.getElementById("username").style.fontWeight = "800";
+        document.getElementById("overlay").style.visibility = "hidden";
+      });
   }
 
   showAddMoney() {
@@ -29,23 +35,30 @@ class Header extends Component {
   }
 
   hideAddMoney() {
-    const ammount = +document.getElementById('add-money-box').value;
-    const username = document.getElementById('login-box').value;
-    if(!ammount || ammount < 0) return;
-    if(!username){
+    const ammount = +document.getElementById("add-money-box").value;
+    const username = document.getElementById("login-box").value;
+    if (!ammount || ammount < 0) return;
+    if (!username) {
       document.getElementById("add-money").style.visibility = "hidden";
       return alert("login to add money");
-    };
-    const totalBalance = +document.getElementById("current-balance").innerText + +ammount;
+    }
+    const totalBalance =
+      +document.getElementById("current-balance").innerText + +ammount;
     document.getElementById("current-balance").innerText = totalBalance;
-    fetch("/addMoney", {method:"POST", body: JSON.stringify({totalBalance, username})});
+    fetch("/addMoney", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ totalBalance, username })
+    });
     document.getElementById("add-money").style.visibility = "hidden";
   }
 
-  rotateMenu(){
+  rotateMenu() {
     const classnames = ["active", "menu"];
     const currentClass = document.getElementById("menu").className;
-    const futureClass = classnames.find(singleClass => singleClass !== currentClass); 
+    const futureClass = classnames.find(
+      singleClass => singleClass !== currentClass
+    );
     document.getElementById("menu").className = futureClass;
   }
 
@@ -54,7 +67,7 @@ class Header extends Component {
       <div className="main">
         <div className="overlay" id="overlay">
           <div className="popup">
-            <input id="login-box" placeholder="Enter Username"/>
+            <input id="login-box" placeholder="Enter Username" />
             <button onClick={this.hideLogin}> Login </button>
           </div>
         </div>
@@ -66,7 +79,9 @@ class Header extends Component {
         </div>
 
         <div className="paytm-logo">
-          <span className="menu" id="menu" onClick={this.rotateMenu.bind(this)}>III</span>
+          <span className="menu" id="menu" onClick={this.rotateMenu.bind(this)}>
+            III
+          </span>
           <img className="logo" src="https://bit.ly/2X8qxx9" alt="paytm" />
         </div>
         <div className="search">
@@ -79,14 +94,21 @@ class Header extends Component {
         </div>
         <div>
           <i onClick={this.showAddMoney} className="fas fa-wallet wallet">
-            <span className="balance"> Rs.<span id="current-balance">0.00</span></span>
+            <span className="balance">
+              {" "}
+              Rs.<span id="current-balance">0.00</span>
+            </span>
           </i>
         </div>
         <div>
           <i className="fas fa-shopping-bag" />
           No Item in Your Bag
         </div>
-        <div onClick={this.showLoginPage} style={{ cursor: "pointer" }} id="username">
+        <div
+          onClick={this.showLoginPage}
+          style={{ cursor: "pointer" }}
+          id="username"
+        >
           <i className="fas fa-user-plus" /> Log In/Sign Up
         </div>
       </div>
