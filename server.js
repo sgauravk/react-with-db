@@ -13,12 +13,10 @@ const app = new express();
 const addNewUser = function(req, res) {
   connection.connect(() => {
     const name = req.body.name;
-    console.log(name);
     connection.query(
       "select count(name) as count from usersDetails where name = ?",
       name,
       (err, results, fields) => {
-        console.log(results);
         if (results[0].count === 0) {
           connection.query(
             "insert into usersDetails values(?,?)",
