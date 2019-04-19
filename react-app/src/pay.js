@@ -9,7 +9,7 @@ class Pay extends Component {
 
   render() {
     return (
-      <li onClick = {this.fnRef}>
+      <li onClick = {this.fnRef} style={{cursor: "pointer"}}>
         <i className={this.className}></i>
         <span>Pay</span>
       </li>
