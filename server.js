@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
+
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -36,6 +37,19 @@ const addNewUser = function(req, res) {
   });
 };
 
+const getUserMoney = function(req, res) {
+  connection.connect(() => {
+    const name = req.body.name;
+    connection.query(
+      "select balance from usersDetails where name = ?",
+      name,
+      (err, results, fields) => {
+        res.send(JSON.stringify(results[0].balance));
+      }
+    );
+  });
+};
+
 const updateWallet = function(req, res) {
   connection.connect(() => {
     const { totalBalance, username } = req.body;
@@ -57,8 +71,10 @@ app.use(express.static("react-app/build"));
 
 app.post("/addUser", addNewUser);
 app.post("/addMoney", updateWallet);
+app.post("/getMoney", getUserMoney);
+app.post("/payMoney", updateWallet);
 
-app.get('*', (req, res)=> {
-  res.sendFile(__dirname + 'react-app/build/index.html');
-})
+app.get("*", (req, res) => {
+  res.sendFile(__dirname + "react-app/build/index.html");
+});
 app.listen(port, () => console.log("listening on " + port));

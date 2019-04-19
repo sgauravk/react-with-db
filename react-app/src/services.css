@@ -25,3 +25,11 @@ li{
   text-align: center;
   align-items: center;
 }
+
+
+.pay-logo {
+ position: absolute;
+ top: 150vh;
+ left: 40%;
+ border-radius: 10px;
+} 
