@@ -36,6 +36,7 @@ class Services extends Component {
 
   isValidNo(){
     const number = document.getElementById("pay-number").value;
+    if(number.length !== 10) alert("Invalid Number");
     const isValid = +number && number > 0;
     return number.length === 10 && isValid;
   }
@@ -56,7 +57,9 @@ class Services extends Component {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ totalBalance, username })
-    })
+    });
+    document.getElementById("pay-number").value = "";
+    document.getElementById("pay-money").value = "";
   }
 
   payAmmount() {
